@@ -1,0 +1,56 @@
+#authorize{
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+    width: 100px;
+    border: 1px solid green;
+    border-radius: 5px;
+    font-family: monospace;  
+}
+#authorize:hover{
+    box-shadow: 1px 1px 1px black;
+}
+body{
+    margin-top: 30px;
+}
+.button-list{
+    margin: 0 auto;
+    width: 200px;
+    display: none;
+}
+.follow-button{
+    text-align: center;
+    margin: 15px;
+    line-height: 50px;
+    height: 50px;
+    border: 1px solid;
+    border-radius: 3px;
+    background-color: #98ff98;
+    font-family: sans-serif;
+    color: #9a8f8f;
+}
+.follow-button:hover{
+    color: black;
+    box-shadow: 1px 1px 1px rgb(99, 99, 99);
+    cursor: pointer;
+}
+.follow-header{
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: sans-serif;
+    margin-bottom: 20px;
+}
+#download{
+    text-align: center;
+    margin: 0 auto;
+    cursor: pointer;
+    width: 100px;
+    border: 1px solid green;
+    border-radius: 5px;
+    font-family: monospace;  
+    display: none;
+}
+#download:hover{
+    box-shadow: 1px 1px 1px black;
+}
