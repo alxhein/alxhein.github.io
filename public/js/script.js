@@ -19,7 +19,7 @@ const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 // app's client ID, redirect URI and desired scopes
 const clientId = 'cefb70f60e364197b8a7e63b7d6836d9';
-const redirectUri = window.location.href;
+const redirectUri = 'http://streamlinemusic.net';
 const scopes = [
   'user-read-birthdate',
   'user-read-email',

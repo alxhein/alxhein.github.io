@@ -3,12 +3,27 @@
     margin: 0 auto;
     cursor: pointer;
     width: 100px;
-    border: 1px solid green;
-    border-radius: 5px;
-    font-family: monospace;  
+    /* border: 1px solid green; */
+    border-radius: 500px;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    color: #fff;
+    background-color: #1db954;
+    border-width: 0;
+    letter-spacing: 2px;
+    min-width: 160px;
+    text-transform: uppercase;
+    white-space: normal;
+    font-weight: 700;
+    padding: 11px 32px 9px;
+    padding-top: 11px;
+    padding-right: 32px;
+    padding-bottom: 9px;
+    padding-left: 32px; 
+    transition-property: background-color,border-color,color,box-shadow,filter;
+    transition-duration: .3s;
 }
 #authorize:hover{
-    box-shadow: 1px 1px 1px black;
+    background-color: #2eef71;
 }
 body{
     margin-top: 30px;
