@@ -33,6 +33,7 @@ const scopes = [
 
 var downloadButton = document.getElementById('download');
 var authorizeButton = document.getElementById('authorize');
+var followedCount = 0;
 authorizeButton.onclick = function(){
     location.href = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
 }
@@ -86,7 +87,8 @@ permitDownload();
 }(_token, buttonList.children[1]);
 
 function permitDownload(){
-  if(buttonList.children[0].style.backgroundColor === '#e2e2e2' && buttonList.children[1].style.backgroundColor === '#e2e2e2'){
+  followedCount++;
+  if(followedCount >= 2){
     console.log('!');
     buttonList.style.display = 'none';
     downloadButton.style.display = 'block';
