@@ -38,6 +38,18 @@ authorizeButton.onclick = function(){
 }
 
 var buttonList = document.getElementsByClassName('button-list')[0];
+buttonList.children[0].onmouseenter = function(){
+  this.style.backgroundColor = '#2eef71';
+}
+buttonList.children[0].onmouseleave = function(){
+  this.style.backgroundColor = '#1db954';
+}
+buttonList.children[1].onmouseenter = function(){
+  this.style.backgroundColor = '#2eef71';
+}
+buttonList.children[1].onmouseenter = function(){
+  this.style.backgroundColor = '#1db954';
+}
 if (_token){
   authorizeButton.style.display = 'none';
   buttonList.style.display = 'block';
@@ -49,8 +61,10 @@ buttonList.children[0].onclick = function(_token, button){
                     headers: {Authorization: 'Bearer ' + _token},
                     method: 'PUT'
 });
-//button.style.backgroundColor = '#e2e0e0';
-button.style.display = 'none';
+button.style.backgroundColor = '#e2e2e2';
+button.innerHTML = 'Followed';
+button.onmouseenter = '';
+button.onmouseleave = '';
 permitDownload();
 }
 }(_token, buttonList.children[0]);
@@ -62,7 +76,10 @@ buttonList.children[1].onclick = function(_token, button){
                     method: 'PUT'
 });
 //button.style.backgroundColor = '#e2e0e0';
-button.style.display = 'none';
+button.style.backgroundColor = '#e2e2e2';
+button.innerHTML = 'Followed';
+button.onmouseenter = '';
+button.onmouseleave = '';
 permitDownload();
 }
 }(_token, buttonList.children[1]);

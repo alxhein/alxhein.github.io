@@ -40,14 +40,9 @@ body{
     height: 50px;
     border: 1px solid;
     border-radius: 3px;
-    background-color: #98ff98;
+    background-color: #1db954;
     font-family: sans-serif;
-    color: #9a8f8f;
-}
-.follow-button:hover{
-    color: black;
-    box-shadow: 1px 1px 1px rgb(99, 99, 99);
-    cursor: pointer;
+    color: #fff;
 }
 .follow-header{
     width: 200px;
