@@ -43,6 +43,7 @@ body{
     background-color: #1db954;
     font-family: sans-serif;
     color: #fff;
+    cursor: pointer;
 }
 .follow-header{
     width: 200px;

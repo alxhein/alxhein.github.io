@@ -47,9 +47,10 @@ buttonList.children[0].onmouseleave = function(){
 buttonList.children[1].onmouseenter = function(){
   this.style.backgroundColor = '#2eef71';
 }
-buttonList.children[1].onmouseenter = function(){
+buttonList.children[1].onmouseleave = function(){
   this.style.backgroundColor = '#1db954';
 }
+
 if (_token){
   authorizeButton.style.display = 'none';
   buttonList.style.display = 'block';
@@ -85,8 +86,9 @@ permitDownload();
 }(_token, buttonList.children[1]);
 
 function permitDownload(){
-  if(buttonList.children[1].style.display === 'none'){
+  if(buttonList.children[0].style.backgroundColor === '#e2e2e2' && buttonList.children[1].style.backgroundColor === '#e2e2e2'){
     console.log('!');
+    buttonList.style.display = 'none';
     downloadButton.style.display = 'block';
   }
 }
