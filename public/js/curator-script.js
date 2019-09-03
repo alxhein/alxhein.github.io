@@ -58,11 +58,11 @@ class CuratedPlaylist{
     constructor(token){
         this._token = token;
         this._sources = [];
-        this._id = '73WsR9OJS7Rqqsf8Zk4t6y';
-        this._name = 'DJ Mix - Frat Party';
-        this._owner = 'Alex Hein';
+        this._userId = '1290233311';
+        this._name = 'My Playlist';
+        this._owner = '';
         this._image = 'https://mosaic.scdn.co/640/30a538ad84f1efa30c5ed1a8113fc18bac3daa9e3fe16d91afe3f843392b3bdb9c05585cd5294b2a5716c9ede61f777ae78f02a3d9918bf55343174a77eb7c17cafe55036f97c0b148ae9b5798725407'; 
-        this._description = 'The frattiest playlist of all time';
+        this._description = 'Description';
         this._tracks;
         this._nameInput;
         this._descriptionInput;
@@ -75,6 +75,7 @@ class CuratedPlaylist{
         this.createHTML();
     }
     createHTML(){
+        this.createPlaylist();
         this._userPlaylist = document.getElementById('user-playlist');
         this._infoContainer = makeElement('div','info-container');
         this._leftSide = makeElement('div','left-side-inputs');
@@ -133,6 +134,31 @@ class CuratedPlaylist{
           catch(error){
             console.log(error);
           }
+    }
+    async createPlaylist(){
+        var _this = this;
+        var urlString = 'https://api.spotify.com/v1/users/' + _this._userId; + '/playlists';
+
+        var jsonData = {
+            "name": _this._name,
+            "public": true
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: urlString,
+            data: jsonData,
+            dataType: 'json',
+            headers: {
+            'Authorization': 'Bearer ' + this._token},
+            contentType: 'application/json',
+        success: function(result) {
+            console.log('Woo! :)');
+        },
+        error: function() {
+            console.log('Error! :(');
+        }
+        })
     }
 }
 
@@ -3094,7 +3120,7 @@ const authEndpoint = 'https://accounts.spotify.com/authorize';
 
 // app's client ID, redirect URI and desired scopes
 const clientId = 'cefb70f60e364197b8a7e63b7d6836d9';
-const redirectUri = 'http://streamline.net/curator';
+const redirectUri = 'http://streamlinemusic.net/curator';
 const scopes = [
   'user-read-birthdate',
   'user-read-email',
@@ -3105,7 +3131,9 @@ const scopes = [
   'playlist-read-private'
 ];
 
-var authorizeButton = document.getElementById('authorize');
+var playlistDashboard = document.getElementsByClassName('playlist-dashboard')[0];
+var mainContent = document.getElementsByClassName('main-content')[0];
+var authorizeButton = document.getElementById('create-playlist-button');
 authorizeButton.onclick = function(){
     location.href = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
 }
@@ -3125,26 +3153,30 @@ var filterTracklist = document.getElementById('filter-tracklist');
 var waiting = false;
 */
 
-var PLAYLIST = new CuratedPlaylist(_token);
-var addSourceButton = document.getElementById('add-source-button');
-var sourceBubbleContainer = document.getElementById('source-container');
-var sourceBubbles = [];
-var sourceArray = [];
-var currentSource;
+if(_token){
+    playlistDashboard.style.display = 'none';
+    mainContent.style.display = 'block';
+    var PLAYLIST = new CuratedPlaylist(_token);
+    var addSourceButton = document.getElementById('add-source-button');
+    var sourceBubbleContainer = document.getElementById('source-container');
+    var sourceBubbles = [];
+    var sourceArray = [];
+    var currentSource;
 
-addSourceButton.onclick = function(){
-    //OG
-    //addSourceButton.style.display = 'none';
-    //choicesContainer.style.display = 'block';
-    //sourceSearchPopup.style.display = 'table';
+    addSourceButton.onclick = function(){
+        //OG
+        //addSourceButton.style.display = 'none';
+        //choicesContainer.style.display = 'block';
+        //sourceSearchPopup.style.display = 'table';
 
-    currentSource = new Source(_token);
-    document.getElementById('body').appendChild(currentSource._sourcePopupContainer);
-    document.getElementById('body').style.overflow = 'hidden';
-}
+        currentSource = new Source(_token);
+        document.getElementById('body').appendChild(currentSource._sourcePopupContainer);
+        document.getElementById('body').style.overflow = 'hidden';
+    }
 
-var addSourceBubble = function(){
-    sourceBubbleContainer.insertBefore(currentSource._sourceBubble, addSourceButton);
+    var addSourceBubble = function(){
+        sourceBubbleContainer.insertBefore(currentSource._sourceBubble, addSourceButton);
+    }
 }
 
 
