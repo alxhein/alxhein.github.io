@@ -1,6 +1,6 @@
 # alxhein.github.io
 
-This repository contains two separate projects that I hope to eventually merge (with other side-projects) into a comprehensive suite of tools for Spotify artists & playlist owners. 
+This repository contains two separate projects that I hope to eventually merge (with other side-projects) into a comprehensive suite of tools for Spotify artists & users. 
 
 1. Streamline playlist curator - hosted at https://streamlinemusic.net/curator
 - This was my first major project I pursued with the intent of learning Javascript, HTML, CSS, and Node.js (for development, before purchasing the domain), as well as how to access an API with AJAX requests
