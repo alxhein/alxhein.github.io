@@ -52,6 +52,26 @@ body{
     font-family: sans-serif;
     margin-bottom: 20px;
 }
+.download-header{
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    margin-bottom: 20px;
+}
+.image-container{
+    margin: 0 auto;
+    width: 300px;
+    text-align: center;
+}
+.download-image{
+    height: 250px;
+    margin-bottom: 20px;
+}
+.includes{
+    margin: 0 auto;
+    width: 300px;
+}
 #download{
     text-align: center;
     margin: 0 auto;
@@ -64,4 +84,11 @@ body{
 }
 #download:hover{
     box-shadow: 1px 1px 1px black;
+}
+.includes h5{
+    font-family: sans-serif;
+    margin-bottom: 5px;
+}
+.includes li{
+    font-family: sans-serif;
 }
