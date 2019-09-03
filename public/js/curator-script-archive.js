@@ -1,26 +1,5 @@
 var idNumber = 0;
 
-var shuffle = function (array) {
-
-	var currentIndex = array.length;
-	var temporaryValue, randomIndex;
-
-	// While there remain elements to shuffle...
-	while (0 !== currentIndex) {
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex -= 1;
-
-		// And swap it with the current element.
-		temporaryValue = array[currentIndex];
-		array[currentIndex] = array[randomIndex];
-		array[randomIndex] = temporaryValue;
-	}
-
-	return array;
-
-};
-
 function makeElement(type,className){
     let e = document.createElement(type);
     if(className != ''){
@@ -80,10 +59,9 @@ class CuratedPlaylist{
         this._token = token;
         this._sources = [];
         this._userId = '1290233311';
-        this._playlistId = '';
         this._name = 'My Playlist';
         this._owner = '';
-        this._image = './public/images/imageuploadnotavailable.png'; 
+        this._image = 'https://mosaic.scdn.co/640/30a538ad84f1efa30c5ed1a8113fc18bac3daa9e3fe16d91afe3f843392b3bdb9c05585cd5294b2a5716c9ede61f777ae78f02a3d9918bf55343174a77eb7c17cafe55036f97c0b148ae9b5798725407'; 
         this._description = 'Description';
         this._tracks;
         this._nameInput;
@@ -110,7 +88,6 @@ class CuratedPlaylist{
         this._nameInput = makeElement('input','playlist-title-input');
         this._nameInput.type = 'text';
         this._nameInput.value = this._name;
-        this.setNameInputKeyup();
         this._leftSide.appendChild(this._nameInput);
         let descriptionHeader = makeElement('h5','');
         descriptionHeader.innerHTML = 'Description';
@@ -118,7 +95,6 @@ class CuratedPlaylist{
         this._descriptionInput = makeElement('textarea','playlist-description-input');
         this._descriptionInput.value = this._description;
         this._descriptionInput.spellcheck = false;
-        this.setDescriptionInputKeyup();
         this._leftSide.appendChild(this._descriptionInput);
         let imageHeader = makeElement('h5','');
         imageHeader.innerHTML = 'Image';
@@ -137,54 +113,36 @@ class CuratedPlaylist{
         
         this._userPlaylist.appendChild(this._infoContainer);
     }
-    setNameInputKeyup(){
-        //setup before functions
-        let typingTimer;                //timer identifier
-        let doneTypingInterval = 5000;  //time in ms (5 seconds)
+    async changePlaylistDetails(){
         var _this = this;
+        console.log(_this._token);
 
-        //on keyup, start the countdown
-        _this._nameInput.addEventListener('keyup', () => {
-            clearTimeout(typingTimer);
-            if (_this._nameInput.value) {
-                typingTimer = setTimeout(doneTyping, doneTypingInterval);
-            }
-        });
-
-        //user is "finished typing," do something
-        function doneTyping () {
-            _this._name = _this._nameInput.value;
-            _this.changePlaylistName();
-        }
-    }
-    setDescriptionInputKeyup(){
-        //setup before functions
-        let typingTimer;                //timer identifier
-        let doneTypingInterval = 5000;  //time in ms (5 seconds)
-        var _this = this;
-
-        //on keyup, start the countdown
-        _this._descriptionInput.addEventListener('keyup', () => {
-            clearTimeout(typingTimer);
-            if (_this._descriptionInput.value) {
-                typingTimer = setTimeout(doneTyping, doneTypingInterval);
-            }
-        });
-
-        //user is "finished typing," do something
-        function doneTyping () {
-            _this._description = _this._descriptionInput.value;
-            _this.changePlaylistDescription();
-        }
+        try{
+            var result = await $.ajax({
+              url: `https://api.spotify.com/v1/me`,
+              type: "PUT",
+              contentType: 'application/json',
+              data: {
+                  "name":"trap",
+                  "public":false
+              },
+              dataType: 'json',
+              beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'Bearer ' + _this._token );},
+              contentType: 'application/json'
+           });
+          }
+          catch(error){
+            console.log(error);
+          }
     }
     async createPlaylist(){
         var _this = this;
-        var urlString = 'https://api.spotify.com/v1/users/' + _this._userId + '/playlists';
+        var urlString = 'https://api.spotify.com/v1/users/' + _this._userId; + '/playlists';
 
-        var jsonData = JSON.stringify({
+        var jsonData = {
             "name": _this._name,
             "public": true
-        });
+        };
 
         $.ajax({
             type: 'POST',
@@ -192,56 +150,7 @@ class CuratedPlaylist{
             data: jsonData,
             dataType: 'json',
             headers: {
-            'Authorization': 'Bearer ' + _this._token},
-            contentType: 'application/json',
-        success: function(result) {
-            _this._playlistId = result.id;
-            console.log('Woo! :) ' + _this._playlistId);
-        },
-        error: function() {
-            console.log('Error! :(');
-        }
-        })
-    }
-    async changePlaylistName(){
-        var _this = this;
-        var urlString = 'https://api.spotify.com/v1/playlists/' + _this._playlistId;
-
-        var jsonData = JSON.stringify({
-            "name": _this._name,
-        });
-
-        $.ajax({
-            type: 'PUT',
-            url: urlString,
-            data: jsonData,
-            dataType: 'json',
-            headers: {
-            'Authorization': 'Bearer ' + _this._token},
-            contentType: 'application/json',
-        success: function(result) {
-            console.log('Woo! :)');
-        },
-        error: function() {
-            console.log('Error! :(');
-        }
-        })
-    }
-    async changePlaylistDescription(){
-        var _this = this;
-        var urlString = 'https://api.spotify.com/v1/playlists/' + _this._playlistId;
-
-        var jsonData = JSON.stringify({
-            "description": _this._description,
-        });
-
-        $.ajax({
-            type: 'PUT',
-            url: urlString,
-            data: jsonData,
-            dataType: 'json',
-            headers: {
-            'Authorization': 'Bearer ' + _this._token},
+            'Authorization': 'Bearer ' + this._token},
             contentType: 'application/json',
         success: function(result) {
             console.log('Woo! :)');
@@ -568,7 +477,6 @@ class Source {
                         return function () {
                             document.getElementById('body').style.overflow = 'scroll';
                             _this._sourcePopupContainer.style.display = 'none';
-                            addSourceTracks();
                         }
                     }
                     _this._filterCloseButton.onclick = filterCloseButtonOnclick(_this);
@@ -730,8 +638,6 @@ class Source {
 
                 var bubbleDeleteIconOnclick = function (_this) {
                     return function () {
-                        removeSource(this.parentNode.parentNode);
-                        addSourceTracks();
                         this.parentNode.parentNode.outerHTML = '';
                         _this._sourcePopupContainer.outerHTML = '';
                     }
@@ -3251,118 +3157,27 @@ if(_token){
     playlistDashboard.style.display = 'none';
     mainContent.style.display = 'block';
     var PLAYLIST = new CuratedPlaylist(_token);
-var addSourceButton = document.getElementById('add-source-button');
-var sourceBubbleContainer = document.getElementById('source-container');
-var sourceBubbles = [];
-var sourceArray = [];
-var trackArray = [];
-var currentSource;
-var applyChanges = document.getElementById('apply-changes-button');
+    var addSourceButton = document.getElementById('add-source-button');
+    var sourceBubbleContainer = document.getElementById('source-container');
+    var sourceBubbles = [];
+    var sourceArray = [];
+    var currentSource;
 
-addSourceButton.onclick = function(){
-    //OG
-    //addSourceButton.style.display = 'none';
-    //choicesContainer.style.display = 'block';
-    //sourceSearchPopup.style.display = 'table';
+    addSourceButton.onclick = function(){
+        //OG
+        //addSourceButton.style.display = 'none';
+        //choicesContainer.style.display = 'block';
+        //sourceSearchPopup.style.display = 'table';
 
-    //currentSource = new Source(_token);
-    sourceArray.push(new Source(_token));
-    document.getElementById('body').appendChild(sourceArray[sourceArray.length - 1]._sourcePopupContainer);
-    document.getElementById('body').style.overflow = 'hidden';
-}
+        currentSource = new Source(_token);
+        document.getElementById('body').appendChild(currentSource._sourcePopupContainer);
+        document.getElementById('body').style.overflow = 'hidden';
+    }
 
-var addSourceBubble = function(){
-    sourceBubbleContainer.insertBefore(sourceArray[sourceArray.length - 1]._sourceBubble, addSourceButton);
-}
-
-var removeSource = function(bubble){
-    for(let i=0; i<sourceBubbleContainer.children.length-1; i++){
-        if(bubble === sourceBubbleContainer.children[i]){
-            
-                sourceArray.splice(i, 1);
-        }
+    var addSourceBubble = function(){
+        sourceBubbleContainer.insertBefore(currentSource._sourceBubble, addSourceButton);
     }
 }
-
-var addSourceTracks = function(){
-    trackArray = [];
-    for(let i=0; i<sourceArray.length; i++){
-        let sourceTracks;
-        if(sourceArray[i].filteredTracks){
-            sourceTracks = sourceArray[i].filteredTracks;
-        }
-        else{
-            sourceTracks = sourceArray[i].getTracks();
-        }
-        for(let x=0; x<sourceTracks.length; x++){
-            trackArray.push(sourceTracks[x]);
-        }
-    }
-    console.log(trackArray);
-}
-
-//future: add index parameter
-var addTracksToPlaylist = function(){
-    console.log(_token);
-    trackArray = shuffle(trackArray);
-    let ids = trackArray.map(element => 'spotify:track:' + element.id);
-
-    var urlString = 'https://api.spotify.com/v1/playlists/' + PLAYLIST._playlistId + '/tracks';
-
-        var jsonData = JSON.stringify({
-            "uris":ids
-        });
-
-        $.ajax({
-            type: 'POST',
-            url: urlString,
-            data: jsonData,
-            dataType: 'json',
-            headers: {
-            'Authorization': 'Bearer ' + _token},
-            contentType: 'application/json',
-        success: function(result) {
-            console.log('Woo! :) ');
-        },
-        error: function() {
-            console.log('Error! :(');
-        }
-        })
-
-}
-
-var replacePlaylistTracks = function(){
-    console.log("!!!!" + _token) ;
-
-    let ids = trackArray.map(element => 'spotify:track:' + element.id);
-
-    var urlString = 'https://api.spotify.com/v1/playlists/' + PLAYLIST._playlistId + '/tracks';
-
-    var jsonData = JSON.stringify({
-        "uris":ids
-    });
-
-        $.ajax({
-            type: 'PUT',
-            url: urlString,
-            data: jsonData,
-            dataType: 'json',
-            headers: {
-            'Authorization': 'Bearer ' + _token},
-            contentType: 'application/json',
-        success: function(result) {
-            console.log('Woo! :) ');
-        },
-        error: function() {
-            console.log('Error! :(');
-        }
-        })
-}
-
-applyChanges.onclick = replacePlaylistTracks;
-
-}
-
 
 
 /*
